@@ -1,9 +1,9 @@
-FROM php:8.3.6-fpm-alpine
+FROM php:8.2-fpm-alpine
 
 # Set working directory
 WORKDIR /var/www/html
 
-# COPY "docker-php-ini/extra-php.ini" "${PHP_INI_DIR}/conf.d"
+COPY "docker-php-ini/extra-php.ini" "${PHP_INI_DIR}/conf.d"
 
 # Install system dependencies and PHP extensions
 RUN apk add --no-cache $PHPIZE_DEPS linux-headers \
@@ -25,7 +25,12 @@ RUN apk add --no-cache $PHPIZE_DEPS linux-headers \
     && apk add --no-cache libxml2-dev \
     && docker-php-ext-install soap \
     # Install other PHP extensions
-    && docker-php-ext-install pdo pdo_mysql pcntl
+    && docker-php-ext-install pdo pdo_mysql pcntl \
+    # Install and configure intl extension
+    && apk add --no-cache icu-dev \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl
+
 
 
 # Reemplazar el puerto de Xdebug en extra-php.ini con la variable de entorno
