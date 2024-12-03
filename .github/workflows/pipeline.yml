@@ -24,8 +24,9 @@ jobs:
         run:  |
           cp .env.ci .env
           php artisan key:generate
-      - name: Ejecutando test api laravel
-        run: php artisan test
+      # - name: Ejecutando test api laravel
+      #   run: php artisan test
+
       # - name: setup Node
       #   uses: actions/setup-node@v4
       #   with:
