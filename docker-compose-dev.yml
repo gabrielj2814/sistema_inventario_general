@@ -1,0 +1,109 @@
+version: "3.8"
+
+services:
+  api-app-inventario:
+    image: docker.io/bitnami/laravel:11
+    ports:
+      - '3001:8000'
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD_CUSTOM}
+      - DB_DATABASE=${DB_DATABASE}
+    volumes:
+      - .:/app
+    links:
+      - db-mysql
+    networks:
+      - app_api_laravel_inventario
+      - nginxproxymanager_default
+
+  php-app-inventario:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php-app-inventario
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - ${DOCKER_PHP_PORT}
+    networks:
+      - app_api_laravel_inventario
+
+  db-mysql:
+    image: mysql:8.1.0
+    ports:
+      - "3002:${DB_PORT}"
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD_CUSTOM}
+    volumes:
+      - v-db-mysql-app-inventario:/var/lib/mysql
+    networks:
+      - app_api_laravel_inventario
+
+  # horizon:
+  #   build: .
+  #   entrypoint: php
+  #   command: artisan horizon
+  #   volumes:
+  #     - .:/var/www/html
+  #   links:
+  #     - db-mysql
+  #     - redis
+  #   networks:
+  #     - nginxproxymanager_default
+  #     - app_api_laravel_inventario
+  #     - api_socket_node-api-vitacar
+
+  # redis:
+  #   image: redis:7.2.3
+  #   ports:
+  #     - ${DOCKER_CACHE_PORT}
+  #   networks:
+  #     - nginxproxymanager_default
+  #     - app_api_laravel_inventario
+  #     - api_socket_node-api-vitacar
+
+  phpmyadmin-app-inventario:
+    image: phpmyadmin:5.2.1-apache
+    ports:
+      - "3003:80"
+    links:
+      - db-mysql
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=${DB_HOST}
+      - PMA_PORT=${DB_PORT}
+    networks:
+      - app_api_laravel_inventario
+
+  # soketi:
+  #   image: 'quay.io/soketi/soketi:latest-16-alpine'
+  #   environment:
+  #       SOKETI_DEBUG: '1'
+  #       SOKETI_METRICS_SERVER_PORT: '6002'
+  #   ports:
+  #       - '${SOKETI_PORT:-6001}:6001'
+  #       # - '${SOKETI_METRICS_SERVER_PORT:-6002}:9601'
+  #   networks:
+  #     - app_api_laravel_inventario
+
+  composer:
+    image: composer:2.7.7
+    volumes:
+      - .:/app
+    working_dir: /app
+    networks:
+      - app_api_laravel_inventario
+
+volumes:
+  v-db-mysql-app-inventario:
+
+
+networks:
+  app_api_laravel_inventario:
+    driver: bridge
+  nginxproxymanager_default:
+    external: true
