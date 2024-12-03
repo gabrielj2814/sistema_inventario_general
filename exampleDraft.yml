@@ -1,0 +1,93 @@
+# php artisan blueprint:build
+# php artisan blueprint:erase
+models:
+
+  QrUsuario:
+    uuid: string:255 unique
+    token_qr: string:255 unique
+    se_puede_vencer: boolean default:0
+    fecha_vencimiento: date nullable
+    status: boolean default:1
+    relationships:
+      belongsTo: \App\Models\User
+    softDeletes
+    timestamps
+
+  Permiso:
+    nombre: string:255
+    status: boolean default:1
+    softDeletes
+    timestamps
+    relationships:
+      hasMany: PermisoPerfil
+
+  PermisoPerfil:
+    id_perfil: id foreign:perfil.id_perfil
+    status: boolean default:1
+    relationships:
+      belongsTo: Permiso
+    softDeletes
+    timestamps
+
+  Zona:
+    nombre: string:255
+    horario_de_acceso_de_la_zona: time nullable
+    horario_de_cierre_de_la_zona: time nullable
+    status: boolean default:1
+    softDeletes
+    timestamps
+    relationships:
+      hasMany: Puerta, AccesoUsuario
+
+  Puerta:
+    nombre: string:255
+    codigo: string:255 unique
+    entrada: boolean default:1
+    salida: boolean default:1
+    status: boolean default:1
+    relationships:
+      belongsTo: Zona
+    softDeletes
+    timestamps
+
+  AccesoUsuario:
+    relationships:
+      belongsTo: \App\Models\User, Zona
+    softDeletes
+    timestamps
+
+  LogAcceso:
+    mensaje: string:255
+    fecha: Date
+    hora: Time
+    lado: string:10
+    relationships:
+      belongsTo: QrUsuario, Puerta, \App\Models\User
+    timestamps
+
+
+  # User:
+  #   id: id autoIncrement primary
+  #   name: string:255
+  #   password: string:255
+  #   email: string:255 unique
+  #   email_verified_at: timestamp nullable
+  #   remember_token: string:100
+  #   softDeletes
+  #   timestamps
+
+  # Password_reset_token:
+  #   id: false
+  #   email: string:255 primary
+  #   token: string:255
+  #   created_at: timestamp nullable
+  #   timestamps: false
+
+
+  # Session:
+  #   id: string:255 primary
+  #   user_id: id foreign:Users.id nullable index
+  #   ip_address: string:45 nullable
+  #   user_agent: text nullable
+  #   payload: longText
+  #   last_activity: integer index
