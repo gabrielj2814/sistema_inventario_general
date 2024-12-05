@@ -2,6 +2,12 @@
 # php artisan blueprint:erase
 models:
 
+  Category:
+    name: string:140
+    description: string:255
+    softDeletes
+    timestamps
+
   Product:
     name: string:140
     description: string:255
@@ -9,12 +15,8 @@ models:
     stock: integer
     price_unit: deciimal:8,2
     unit_of_measurement: enum:mg,g,kg,t,mm,cm,m,km,ud,dz,pkg,box
-    softDeletes
-    timestamps
-
-  Category:
-    name: string:140
-    description: string:255
+    relationships:
+      belongsTo: Category
     softDeletes
     timestamps
 

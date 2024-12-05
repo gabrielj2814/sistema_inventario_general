@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('stock');
             $table->string('price_unit');
             $table->enum('unit_of_measurement', ["mg","g","kg","t","mm","cm","m","km","ud","dz","pkg","box"]);
+            $table->foreignId('category_id');
             $table->timestamps();
             $table->softDeletes();
         });
