@@ -29,7 +29,7 @@ class CreateWarehouse extends CreateRecord
     {
         return Notification::make()
             ->success()
-            ->title('Category Registered')
+            ->title('Warehouse Registered')
             ->body('The customer has been saved successfully.');
     }
 
