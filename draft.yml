@@ -1,3 +1,83 @@
 # php artisan blueprint:build
 # php artisan blueprint:erase
 models:
+
+  Product:
+    name: string:140
+    description: string:255
+    barcode: string:255
+    stock: integer
+    price_unit: deciimal:8,2
+    unit_of_measurement: enum:mg,g,kg,t,mm,cm,m,km,ud,dz,pkg,box
+    softDeletes
+    timestamps
+
+  Category:
+    name: string:140
+    description: string:255
+    softDeletes
+    timestamps
+
+  Supplier:
+    name: string:140
+    description: string:255
+    phone: string:25
+    email: string:255
+    adress: string:255
+    softDeletes
+    timestamps
+
+
+  InventoryMovement:
+    date_movement: date
+    type: enum:estrada,salida,ajuste
+    amount: integer
+    note: string:255
+    relationships:
+      belongsTo: \App\Models\User, Product
+    softDeletes
+    timestamps
+
+  Customer:
+    name: string:140
+    phone: string:25
+    email: string:255
+    adress: string:255
+    softDeletes
+    timestamps
+
+  Order:
+    dateOrder: date
+    total: integer
+    statu: enum:pendiente,completado,cancelado
+    relationships:
+      belongsTo: \App\Models\User, Customer
+    softDeletes
+    timestamps
+
+  OrderDetail:
+    amount: integer
+    price_unit: deciimal:8,2
+    subTotal: integer
+    relationships:
+      belongsTo: Product, Order
+    softDeletes
+    timestamps
+
+  Warehouse:
+    name: string:140
+    location: string:255
+    softDeletes
+    timestamps
+
+  InventoryWarehouse:
+    stock: integer
+    relationships:
+      belongsTo: Warehouse, Product
+    timestamps
+
+
+
+
+
+
