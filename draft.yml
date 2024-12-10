@@ -4,16 +4,16 @@ models:
 
   Category:
     name: string:140
-    description: string:255
+    description: string:255 nullable
     softDeletes
     timestamps
 
   Product:
     name: string:140
-    description: string:255
-    barcode: string:255
+    description: string:255 nullable
+    barcode: string:255 unique
     stock: integer
-    price_unit: deciimal:8,2
+    price_unit: decimal:8,2
     unit_of_measurement: enum:mg,g,kg,t,mm,cm,m,km,ud,dz,pkg,box
     relationships:
       belongsTo: Category
@@ -26,6 +26,12 @@ models:
     phone: string:25
     email: string:255
     adress: string:255
+    softDeletes
+    timestamps
+
+  ProductSupplier:
+    relationships:
+      belongsTo: Supplier, Product
     softDeletes
     timestamps
 
@@ -59,7 +65,7 @@ models:
 
   OrderDetail:
     amount: integer
-    price_unit: deciimal:8,2
+    price_unit: decimal:8,2
     subTotal: integer
     relationships:
       belongsTo: Product, Order
