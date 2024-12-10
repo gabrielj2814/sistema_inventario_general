@@ -31,6 +31,7 @@ class OrderDetail extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'price_unit' => 'decimal:2',
         'product_id' => 'integer',
         'order_id' => 'integer',
     ];

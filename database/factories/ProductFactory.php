@@ -26,7 +26,7 @@ class ProductFactory extends Factory
             'description' => $this->faker->text(),
             'barcode' => $this->faker->regexify('[A-Za-z0-9]{255}'),
             'stock' => $this->faker->numberBetween(-10000, 10000),
-            'price_unit' => $this->faker->word(),
+            'price_unit' => $this->faker->randomFloat(2, 0, 999999.99),
             'unit_of_measurement' => $this->faker->randomElement(["mg","g","kg","t","mm","cm","m","km","ud","dz","pkg","box"]),
             'category_id' => Category::factory(),
         ];

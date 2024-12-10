@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Product extends Model
+class ProductSupplier extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -17,13 +17,8 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'description',
-        'barcode',
-        'stock',
-        'price_unit',
-        'unit_of_measurement',
-        'category_id',
+        'supplier_id',
+        'product_id',
     ];
 
     /**
@@ -33,12 +28,17 @@ class Product extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'price_unit' => 'decimal:2',
-        'category_id' => 'integer',
+        'supplier_id' => 'integer',
+        'product_id' => 'integer',
     ];
 
-    public function category(): BelongsTo
+    public function supplier(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Supplier::class);
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
     }
 }
