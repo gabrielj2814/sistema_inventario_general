@@ -41,6 +41,19 @@ models:
     softDeletes
     timestamps
 
+  Warehouse:
+    name: string:140
+    location: string:255
+    relationships:
+      hasMany: InventoryWarehouse
+    softDeletes
+    timestamps
+
+  InventoryWarehouse:
+    stock: integer
+    relationships:
+      belongsTo: Warehouse, Product
+    timestamps
 
   InventoryMovement:
     date_movement: date
@@ -48,7 +61,7 @@ models:
     amount: integer
     note: string:255
     relationships:
-      belongsTo: \App\Models\User, ProductSupplier
+      belongsTo: \App\Models\User, ProductSupplier, Warehouse
     softDeletes
     timestamps
 
@@ -79,20 +92,6 @@ models:
     relationships:
       belongsTo: Product, Order
     softDeletes
-    timestamps
-
-  Warehouse:
-    name: string:140
-    location: string:255
-    relationships:
-      hasMany: InventoryWarehouse
-    softDeletes
-    timestamps
-
-  InventoryWarehouse:
-    stock: integer
-    relationships:
-      belongsTo: Warehouse, Product
     timestamps
 
 

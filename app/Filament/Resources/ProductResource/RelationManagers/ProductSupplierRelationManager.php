@@ -57,12 +57,12 @@ class ProductSupplierRelationManager extends RelationManager
             ->actions([
                 // redirección con paramentros
                 Tables\Actions\EditAction::make()
-                ->after(function(Tables\Actions\EditAction $action, ProductSupplier $record){
-                    $this->previousRecordsDelete($record);
-                })
                 ->successRedirectUrl(fn (): string => route('filament.admin.resources.products.edit', [
                     'record' => $this->getOwnerRecord()->id,
                 ])),
+                // ->after(function(Tables\Actions\EditAction $action, ProductSupplier $record){
+                //     $this->previousRecordsDelete($record);
+                // })
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

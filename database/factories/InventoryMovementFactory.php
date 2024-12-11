@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\InventoryMovement;
 use App\Models\ProductSupplier;
 use App\Models\User;
+use App\Models\Warehouse;
 
 class InventoryMovementFactory extends Factory
 {
@@ -29,6 +30,7 @@ class InventoryMovementFactory extends Factory
             'note' => $this->faker->regexify('[A-Za-z0-9]{255}'),
             'user_id' => User::factory(),
             'product_supplier_id' => ProductSupplier::factory(),
+            'warehouse_id' => Warehouse::factory(),
         ];
     }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('note', 255);
             $table->foreignId('user_id');
             $table->foreignId('product_supplier_id');
+            $table->foreignId('warehouse_id');
             $table->timestamps();
             $table->softDeletes();
         });

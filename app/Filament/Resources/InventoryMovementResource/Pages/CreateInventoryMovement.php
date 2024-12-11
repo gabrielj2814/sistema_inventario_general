@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\InventoryMovementResource\Pages;
 
 use App\Filament\Resources\InventoryMovementResource;
+use App\Models\InventoryWarehouse;
 use App\Models\Product;
 use App\Models\ProductSupplier;
 use App\Models\Warehouse;
@@ -35,14 +36,16 @@ class CreateInventoryMovement extends CreateRecord
                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
                 Select::make("product_supplier_id")->label("Supplier")->required()->searchable()->options(fn ($get):Collection => ProductSupplier::query()->with("supplier")->where("product_id","=",$get("product"))->get()->pluck("supplier.name","id"))
                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
-                Select::make("warehouse")->required()->searchable()->options(Warehouse::all()->pluck("name","id"))
+                Select::make("warehouse_id")->required()->label("Warehouse")->searchable()->options(Warehouse::all()->pluck("name","id"))
                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
-                TextInput::make("amount")->required()->autocomplete(false)->numeric()
+                TextInput::make("amount")->required()->autocomplete(false)->numeric()->default(0)
                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
                 Textarea::make("note")->required()->autocomplete(false)->columnSpan(["sm" => 12,"md" => 12,"lg" => 12,"xl" => 12,"xl2" => 12]),
             ])
         ]);
     }
+
+
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
@@ -52,6 +55,31 @@ class CreateInventoryMovement extends CreateRecord
         $data["date_movement"]=$today->format("Y-m-d");
         $data["user_id"]=$user->id;
         return $data;
+    }
+
+    protected function afterCreate(){
+        $record=$this->getRecord();
+        // dd($record);
+        // die();
+        $InventoryWareHouse=null;
+        // stock
+        $isStockOfTheProductoinTheWarehose=InventoryWarehouse::query()
+        ->where("product_id","=",$record->productSupplier->product->id)
+        ->where("warehouse_id","=",$record->warehouse_id)
+        ->get();
+        if(count($isStockOfTheProductoinTheWarehose)>0){
+            $InventoryWareHouse=$isStockOfTheProductoinTheWarehose[0];
+        }
+        else{
+            $InventoryWareHouse=new InventoryWarehouse();
+            $InventoryWareHouse->stock=0;
+            $InventoryWareHouse->product_id=$record->productSupplier->product->id;
+            $InventoryWareHouse->warehouse_id=$record->warehouse_id;
+        }
+
+        $InventoryWareHouse->stock=(int)$InventoryWareHouse->stock+$record->amount;
+        $InventoryWareHouse->save();
+
     }
 
     protected function getSavedNotification(){

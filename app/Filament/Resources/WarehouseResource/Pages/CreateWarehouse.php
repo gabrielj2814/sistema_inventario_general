@@ -19,7 +19,7 @@ class CreateWarehouse extends CreateRecord
         return $form->schema([
             Section::make("Creataed")->schema([
                 TextInput::make('name')->label("Name")->required()->autocomplete(false),
-                Textarea::make('location')->label("Location")->autocomplete(false),
+                Textarea::make('location')->label("Location")->required()->autocomplete(false),
             ])
         ]);
     }
