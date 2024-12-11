@@ -49,15 +49,7 @@ class ProductSupplierRelationManager extends RelationManager
                 // Tables\Actions\CreateAction::make()->successRedirectUrl(route('filament.admin.resources.products.create')),
                 Tables\Actions\CreateAction::make()
                 ->after(function(Tables\Actions\CreateAction $action, ProductSupplier $record){
-                    $ownerRecord=$this->getOwnerRecord();
-
-                    $recordsProductsSuppliers=ProductSupplier::query()->where("supplier_id","=",$record->supplier_id)->where("product_id","=",$ownerRecord->id)->get();
-                    for ($index=0; $index < count($recordsProductsSuppliers); $index++) {
-                        if($record->id!=$recordsProductsSuppliers[$index]->id){
-                            $recordsProductsSuppliers[$index]->delete();
-                        }
-
-                    }
+                    $this->previousRecordsDelete($record);
                 })->successRedirectUrl(fn (): string => route('filament.admin.resources.products.edit', [
                     'record' => $this->getOwnerRecord()->id,
                 ]))
@@ -66,15 +58,7 @@ class ProductSupplierRelationManager extends RelationManager
                 // redirección con paramentros
                 Tables\Actions\EditAction::make()
                 ->after(function(Tables\Actions\EditAction $action, ProductSupplier $record){
-                    $ownerRecord=$this->getOwnerRecord();
-
-                    $recordsProductsSuppliers=ProductSupplier::query()->where("supplier_id","=",$record->supplier_id)->where("product_id","=",$ownerRecord->id)->get();
-                    for ($index=0; $index < count($recordsProductsSuppliers); $index++) {
-                        if($record->id!=$recordsProductsSuppliers[$index]->id){
-                            $recordsProductsSuppliers[$index]->delete();
-                        }
-
-                    }
+                    $this->previousRecordsDelete($record);
                 })
                 ->successRedirectUrl(fn (): string => route('filament.admin.resources.products.edit', [
                     'record' => $this->getOwnerRecord()->id,
@@ -86,5 +70,17 @@ class ProductSupplierRelationManager extends RelationManager
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    function previousRecordsDelete($record){
+        $ownerRecord=$this->getOwnerRecord();
+
+        $recordsProductsSuppliers=ProductSupplier::query()->where("supplier_id","=",$record->supplier_id)->where("product_id","=",$ownerRecord->id)->get();
+        for ($index=0; $index < count($recordsProductsSuppliers); $index++) {
+            if($record->id!=$recordsProductsSuppliers[$index]->id){
+                $recordsProductsSuppliers[$index]->delete();
+            }
+
+        }
     }
 }
