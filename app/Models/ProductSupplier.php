@@ -17,6 +17,7 @@ class ProductSupplier extends Model
      * @var array
      */
     protected $fillable = [
+        'price_supply',
         'supplier_id',
         'product_id',
     ];
@@ -28,6 +29,7 @@ class ProductSupplier extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'price_supply' => 'decimal:2',
         'supplier_id' => 'integer',
         'product_id' => 'integer',
     ];

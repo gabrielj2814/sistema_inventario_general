@@ -5,6 +5,8 @@ models:
   Category:
     name: string:140
     description: string:255 nullable
+    relationships:
+      hasMany: Product
     softDeletes
     timestamps
 
@@ -14,22 +16,26 @@ models:
     barcode: string:255 unique
     stock: integer
     price_unit: decimal:8,2
-    unit_of_measurement: enum:mg,g,kg,t,mm,cm,m,km,ud,dz,pkg,box
+    unit_of_measurement: enum:mg,g,kg,t,ml,l,cm3,m3,mm,cm,m,km,ud,dz,pkg,box
     relationships:
       belongsTo: Category
+      hasMany: ProductSupplier, OrderDetail, InventoryWarehouse
     softDeletes
     timestamps
 
   Supplier:
     name: string:140
-    description: string:255
+    description: string:255 nullable
     phone: string:25
     email: string:255
-    adress: string:255
+    adress: string:255 nullable
+    relationships:
+      hasMany: ProductSupplier
     softDeletes
     timestamps
 
   ProductSupplier:
+    price_supply: decimal:8,2
     relationships:
       belongsTo: Supplier, Product
     softDeletes
@@ -42,7 +48,7 @@ models:
     amount: integer
     note: string:255
     relationships:
-      belongsTo: \App\Models\User, Product
+      belongsTo: \App\Models\User, ProductSupplier
     softDeletes
     timestamps
 
@@ -51,6 +57,8 @@ models:
     phone: string:25
     email: string:255
     adress: string:255
+    relationships:
+      hasMany: Order
     softDeletes
     timestamps
 
@@ -60,6 +68,7 @@ models:
     statu: enum:pendiente,completado,cancelado
     relationships:
       belongsTo: \App\Models\User, Customer
+      hasMany: OrderDetail
     softDeletes
     timestamps
 
@@ -75,6 +84,8 @@ models:
   Warehouse:
     name: string:140
     location: string:255
+    relationships:
+      hasMany: InventoryWarehouse
     softDeletes
     timestamps
 

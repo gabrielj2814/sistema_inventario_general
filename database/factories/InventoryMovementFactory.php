@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\InventoryMovement;
-use App\Models\Product;
+use App\Models\ProductSupplier;
 use App\Models\User;
 
 class InventoryMovementFactory extends Factory
@@ -28,7 +28,7 @@ class InventoryMovementFactory extends Factory
             'amount' => $this->faker->numberBetween(-10000, 10000),
             'note' => $this->faker->regexify('[A-Za-z0-9]{255}'),
             'user_id' => User::factory(),
-            'product_id' => Product::factory(),
+            'product_supplier_id' => ProductSupplier::factory(),
         ];
     }
 }

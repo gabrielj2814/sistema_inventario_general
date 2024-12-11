@@ -22,7 +22,7 @@ class InventoryMovement extends Model
         'amount',
         'note',
         'user_id',
-        'product_id',
+        'product_supplier_id',
     ];
 
     /**
@@ -34,7 +34,7 @@ class InventoryMovement extends Model
         'id' => 'integer',
         'date_movement' => 'date',
         'user_id' => 'integer',
-        'product_id' => 'integer',
+        'product_supplier_id' => 'integer',
     ];
 
     public function user(): BelongsTo
@@ -42,8 +42,8 @@ class InventoryMovement extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function product(): BelongsTo
+    public function productSupplier(): BelongsTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(ProductSupplier::class);
     }
 }

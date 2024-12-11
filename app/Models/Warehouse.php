@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Warehouse extends Model
@@ -28,4 +29,9 @@ class Warehouse extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    public function inventoryWarehouses(): HasMany
+    {
+        return $this->hasMany(InventoryWarehouse::class);
+    }
 }

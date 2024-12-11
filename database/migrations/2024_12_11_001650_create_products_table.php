@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('barcode', 255)->unique();
             $table->integer('stock');
             $table->decimal('price_unit', 8, 2);
-            $table->enum('unit_of_measurement', ["mg","g","kg","t","mm","cm","m","km","ud","dz","pkg","box"]);
+            $table->enum('unit_of_measurement', ["mg","g","kg","t","ml","l","cm3","m3","mm","cm","m","km","ud","dz","pkg","box"]);
             $table->foreignId('category_id');
             $table->timestamps();
             $table->softDeletes();

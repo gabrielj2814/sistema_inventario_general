@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inventory_movements', function (Blueprint $table) {
+        Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
-            $table->date('date_movement');
-            $table->enum('type', ["estrada","salida","ajuste"]);
-            $table->integer('amount');
-            $table->string('note', 255);
-            $table->foreignId('user_id');
-            $table->foreignId('product_id');
+            $table->string('name', 140);
+            $table->string('description', 255)->nullable();
+            $table->string('phone', 25);
+            $table->string('email', 255);
+            $table->string('adress', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inventory_movements');
+        Schema::dropIfExists('suppliers');
     }
 };

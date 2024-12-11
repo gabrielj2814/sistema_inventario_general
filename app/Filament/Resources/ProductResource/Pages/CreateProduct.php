@@ -32,7 +32,8 @@ class CreateProduct extends CreateRecord
                 TextInput::make("name")->required()->autocomplete(false)->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
                 // TextInput::make("barcode")->required()->autocomplete(false)->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
                 // TextInput::make("stock")->required()->autocomplete(false)->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
-                TextInput::make("price_unit")->required()->autocomplete(false)->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
+                TextInput::make("price_unit")->required()->autocomplete(false)->numeric()->inputMode('decimal')
+                ->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
                 Select::make("category_id")->required()->label("Category")->options(Category::all()->pluck("name","id"))->searchable()->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
                 Select::make("unit_of_measurement")->required()->options([
                     "mg" => "mg",

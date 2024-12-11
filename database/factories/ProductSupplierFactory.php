@@ -23,6 +23,7 @@ class ProductSupplierFactory extends Factory
     public function definition(): array
     {
         return [
+            'price_supply' => $this->faker->randomFloat(2, 0, 999999.99),
             'supplier_id' => Supplier::factory(),
             'product_id' => Product::factory(),
         ];

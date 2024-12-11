@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_suppliers', function (Blueprint $table) {
             $table->id();
+            $table->decimal('price_supply', 8, 2);
             $table->foreignId('supplier_id');
             $table->foreignId('product_id');
             $table->timestamps();
