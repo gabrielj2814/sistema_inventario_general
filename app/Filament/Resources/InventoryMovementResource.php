@@ -52,7 +52,7 @@ class InventoryMovementResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -73,7 +73,7 @@ class InventoryMovementResource extends Resource
         return [
             'index' => Pages\ListInventoryMovements::route('/'),
             'create' => Pages\CreateInventoryMovement::route('/create'),
-            'edit' => Pages\EditInventoryMovement::route('/{record}/edit'),
+            // 'edit' => Pages\EditInventoryMovement::route('/{record}/edit'),
         ];
     }
 }
