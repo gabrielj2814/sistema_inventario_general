@@ -28,7 +28,7 @@ class EditCustomer extends EditRecord
                 TextInput::make('name')->label("Name")->required()->autocomplete(false)->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
                 TextInput::make('email')->label("Email")->required()->autocomplete(false)->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
                 TextInput::make('phone')->label("Phone")->autocomplete(false)->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
-                Textarea::make('adress')->label("Adress")->autocomplete(false)->columnSpan(["sm" => 12,"md" => 12,"lg" => 12,"xl" => 12,"xl2" => 12,]),
+                Textarea::make('adress')->label("Adress")->required()->autocomplete(false)->columnSpan(["sm" => 12,"md" => 12,"lg" => 12,"xl" => 12,"xl2" => 12,]),
             ])
         ]);
 

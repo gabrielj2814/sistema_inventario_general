@@ -11,18 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('inventory_movements', function (Blueprint $table) {
             $table->id();
             $table->date('date_movement');
-            $table->enum('type', ["estrada","salida","ajuste"]);
+            $table->enum('type', ["entrada","salida","ajuste"]);
             $table->integer('amount');
             $table->string('note', 255);
+            $table->foreignId('order_id')->nullable()->constrained();
             $table->foreignId('user_id');
             $table->foreignId('product_supplier_id');
             $table->foreignId('warehouse_id');
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

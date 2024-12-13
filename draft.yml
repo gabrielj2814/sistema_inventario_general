@@ -55,13 +55,33 @@ models:
       belongsTo: Warehouse, Product
     timestamps
 
+  Order:
+    dateOrder: date
+    total: integer
+    statu: enum:pendiente,completado,cancelado
+    relationships:
+      belongsTo: \App\Models\User, Customer
+      hasMany: OrderDetail, InventoryMovement
+    softDeletes
+    timestamps
+
+  OrderDetail:
+    amount: integer
+    price_unit: decimal:8,2
+    subTotal: integer
+    relationships:
+      belongsTo: Product, Order
+    softDeletes
+    timestamps
+
   InventoryMovement:
     date_movement: date
-    type: enum:estrada,salida,ajuste
+    type: enum:entrada,salida,ajuste
     amount: integer
     note: string:255
+    order_id: id foreign:Order.id nullable
     relationships:
-      belongsTo: \App\Models\User, ProductSupplier, Warehouse
+      belongsTo: \App\Models\User, ProductSupplier, Warehouse, Order
     softDeletes
     timestamps
 
@@ -75,24 +95,6 @@ models:
     softDeletes
     timestamps
 
-  Order:
-    dateOrder: date
-    total: integer
-    statu: enum:pendiente,completado,cancelado
-    relationships:
-      belongsTo: \App\Models\User, Customer
-      hasMany: OrderDetail
-    softDeletes
-    timestamps
-
-  OrderDetail:
-    amount: integer
-    price_unit: decimal:8,2
-    subTotal: integer
-    relationships:
-      belongsTo: Product, Order
-    softDeletes
-    timestamps
 
 
 

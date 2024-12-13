@@ -21,6 +21,7 @@ class InventoryMovement extends Model
         'type',
         'amount',
         'note',
+        'order_id',
         'user_id',
         'product_supplier_id',
         'warehouse_id',
@@ -34,6 +35,7 @@ class InventoryMovement extends Model
     protected $casts = [
         'id' => 'integer',
         'date_movement' => 'date',
+        'order_id' => 'integer',
         'user_id' => 'integer',
         'product_supplier_id' => 'integer',
         'warehouse_id' => 'integer',
@@ -52,5 +54,10 @@ class InventoryMovement extends Model
     public function warehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
     }
 }

@@ -5,30 +5,30 @@ created:
     - database/factories/ProductSupplierFactory.php
     - database/factories/WarehouseFactory.php
     - database/factories/InventoryWarehouseFactory.php
-    - database/factories/InventoryMovementFactory.php
-    - database/factories/CustomerFactory.php
     - database/factories/OrderFactory.php
     - database/factories/OrderDetailFactory.php
-    - database/migrations/2024_12_12_124304_create_categories_table.php
-    - database/migrations/2024_12_12_124305_create_products_table.php
-    - database/migrations/2024_12_12_124306_create_suppliers_table.php
-    - database/migrations/2024_12_12_124307_create_product_suppliers_table.php
-    - database/migrations/2024_12_12_124308_create_warehouses_table.php
-    - database/migrations/2024_12_12_124309_create_inventory_warehouses_table.php
-    - database/migrations/2024_12_12_124310_create_inventory_movements_table.php
-    - database/migrations/2024_12_12_124311_create_customers_table.php
-    - database/migrations/2024_12_12_124312_create_orders_table.php
-    - database/migrations/2024_12_12_124313_create_order_details_table.php
+    - database/factories/InventoryMovementFactory.php
+    - database/factories/CustomerFactory.php
+    - database/migrations/2024_12_13_120156_create_categories_table.php
+    - database/migrations/2024_12_13_120157_create_products_table.php
+    - database/migrations/2024_12_13_120158_create_suppliers_table.php
+    - database/migrations/2024_12_13_120159_create_product_suppliers_table.php
+    - database/migrations/2024_12_13_120200_create_warehouses_table.php
+    - database/migrations/2024_12_13_120201_create_inventory_warehouses_table.php
+    - database/migrations/2024_12_13_120202_create_orders_table.php
+    - database/migrations/2024_12_13_120203_create_order_details_table.php
+    - database/migrations/2024_12_13_120204_create_inventory_movements_table.php
+    - database/migrations/2024_12_13_120205_create_customers_table.php
     - app/Models/Category.php
     - app/Models/Product.php
     - app/Models/Supplier.php
     - app/Models/ProductSupplier.php
     - app/Models/Warehouse.php
     - app/Models/InventoryWarehouse.php
-    - app/Models/InventoryMovement.php
-    - app/Models/Customer.php
     - app/Models/Order.php
     - app/Models/OrderDetail.php
+    - app/Models/InventoryMovement.php
+    - app/Models/Customer.php
 models:
     User: {  }
     Category: { name: 'string:140', description: 'string:255 nullable', relationships: { hasMany: Product }, softdeletes: softDeletes, timestamps: timestamps }
@@ -37,7 +37,7 @@ models:
     ProductSupplier: { price_supply: 'decimal:8,2', relationships: { belongsTo: 'Supplier, Product' }, softdeletes: softDeletes, timestamps: timestamps }
     Warehouse: { name: 'string:140', location: 'string:255', relationships: { hasMany: InventoryWarehouse }, softdeletes: softDeletes, timestamps: timestamps }
     InventoryWarehouse: { stock: integer, relationships: { belongsTo: 'Warehouse, Product' }, timestamps: timestamps }
-    InventoryMovement: { date_movement: date, type: 'enum:estrada,salida,ajuste', amount: integer, note: 'string:255', relationships: { belongsTo: '\App\Models\User, ProductSupplier, Warehouse' }, softdeletes: softDeletes, timestamps: timestamps }
-    Customer: { name: 'string:140', phone: 'string:25', email: 'string:255', adress: 'string:255', relationships: { hasMany: Order }, softdeletes: softDeletes, timestamps: timestamps }
-    Order: { dateOrder: date, total: integer, statu: 'enum:pendiente,completado,cancelado', relationships: { belongsTo: '\App\Models\User, Customer', hasMany: OrderDetail }, softdeletes: softDeletes, timestamps: timestamps }
+    Order: { dateOrder: date, total: integer, statu: 'enum:pendiente,completado,cancelado', relationships: { belongsTo: '\App\Models\User, Customer', hasMany: 'OrderDetail, InventoryMovement' }, softdeletes: softDeletes, timestamps: timestamps }
     OrderDetail: { amount: integer, price_unit: 'decimal:8,2', subTotal: integer, relationships: { belongsTo: 'Product, Order' }, softdeletes: softDeletes, timestamps: timestamps }
+    InventoryMovement: { date_movement: date, type: 'enum:entrada,salida,ajuste', amount: integer, note: 'string:255', order_id: 'id foreign:Order.id nullable', relationships: { belongsTo: '\App\Models\User, ProductSupplier, Warehouse, Order' }, softdeletes: softDeletes, timestamps: timestamps }
+    Customer: { name: 'string:140', phone: 'string:25', email: 'string:255', adress: 'string:255', relationships: { hasMany: Order }, softdeletes: softDeletes, timestamps: timestamps }
