@@ -57,7 +57,7 @@ models:
 
   Order:
     dateOrder: date
-    total: integer
+    total: decimal:8,2
     statu: enum:pendiente,completado,cancelado
     relationships:
       belongsTo: \App\Models\User, Customer
