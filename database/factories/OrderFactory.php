@@ -24,7 +24,7 @@ class OrderFactory extends Factory
     {
         return [
             'dateOrder' => $this->faker->date(),
-            'total' => $this->faker->numberBetween(-10000, 10000),
+            'total' => $this->faker->randomFloat(2, 0, 999999.99),
             'statu' => $this->faker->randomElement(["pendiente","completado","cancelado"]),
             'user_id' => User::factory(),
             'customer_id' => Customer::factory(),

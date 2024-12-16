@@ -62,6 +62,7 @@ class CreateInventoryMovement extends CreateRecord
         // $data["type"]="estrada";
         $data["date_movement"]=$today->format("Y-m-d");
         $data["user_id"]=$user->id;
+        $data["product_id"]=$data["product_id"];
 
         $this->dataForm=$data;
         return $data;
@@ -134,6 +135,9 @@ class CreateInventoryMovement extends CreateRecord
                 if($totalStock>=0){
                     $InventoryWareHouse->stock=(int)$InventoryWareHouse->stock-$record->amount;
                     $InventoryWareHouse->save();
+                    if($InventoryWareHouse->stock==0){
+                        $InventoryWareHouse->delete();
+                    }
                 }
 
             }

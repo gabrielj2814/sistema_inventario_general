@@ -33,6 +33,7 @@ class Order extends Model
     protected $casts = [
         'id' => 'integer',
         'dateOrder' => 'date',
+        'total' => 'decimal:2',
         'user_id' => 'integer',
         'customer_id' => 'integer',
     ];

@@ -20,9 +20,10 @@ return new class extends Migration
             $table->integer('amount');
             $table->string('note', 255);
             $table->foreignId('order_id')->nullable()->constrained();
+            $table->foreignId('product_supplier_id')->nullable()->constrained();
             $table->foreignId('user_id');
-            $table->foreignId('product_supplier_id');
             $table->foreignId('warehouse_id');
+            $table->foreignId('product_id');
             $table->timestamps();
             $table->softDeletes();
         });

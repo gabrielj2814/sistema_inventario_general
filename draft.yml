@@ -19,7 +19,7 @@ models:
     unit_of_measurement: enum:mg,g,kg,t,ml,l,cm3,m3,mm,cm,m,km,ud,dz,pkg,box
     relationships:
       belongsTo: Category
-      hasMany: ProductSupplier, OrderDetail, InventoryWarehouse
+      hasMany: ProductSupplier, OrderDetail, InventoryWarehouse, InventoryMovement
     softDeletes
     timestamps
 
@@ -80,8 +80,9 @@ models:
     amount: integer
     note: string:255
     order_id: id foreign:Order.id nullable
+    product_supplier_id: id foreign:ProductSupplier.id nullable
     relationships:
-      belongsTo: \App\Models\User, ProductSupplier, Warehouse, Order
+      belongsTo: \App\Models\User, ProductSupplier, Warehouse, Order, Product
     softDeletes
     timestamps
 

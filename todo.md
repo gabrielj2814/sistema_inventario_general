@@ -7,9 +7,4 @@
   - supplier
   - products supplier
 
-<!-- - add field uuid for use it as references to the forms created -->
--me queda registrar la salida de la orden
-
-<!-- part 2 -->
-- Inventory Wherehouse 2.2
-  - salida
+- hacer modulo para trasladar stock de un alamcen a otro y de una sucursal a otra
