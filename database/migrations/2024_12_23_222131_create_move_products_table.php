@@ -16,8 +16,6 @@ return new class extends Migration
         Schema::create('move_products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained();
-            $table->foreignId('from_warehouse')->constrained('warehouse');
-            $table->foreignId('until_warehouse')->constrained('warehouse');
             $table->integer('amount');
             $table->foreignId('user_id');
             $table->foreignId('from_warehouse_id');

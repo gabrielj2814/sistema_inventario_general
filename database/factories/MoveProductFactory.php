@@ -25,8 +25,6 @@ class MoveProductFactory extends Factory
     {
         return [
             'product_id' => Product::factory(),
-            'from_warehouse' => Warehouse::factory(),
-            'until_warehouse' => Warehouse::factory(),
             'amount' => $this->faker->numberBetween(-10000, 10000),
             'user_id' => User::factory(),
             'from_warehouse_id' => Warehouse::factory(),

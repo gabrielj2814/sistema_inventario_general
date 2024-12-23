@@ -98,8 +98,6 @@ models:
 
   MoveProduct:
     product_id: id foreign:Product.id
-    from_warehouse: id foreign:Warehouse.id
-    until_warehouse: id foreign:Warehouse.id
     amount: integer
     relationships:
       belongsTo: \App\Models\User, Product, Warehouse:fromWarehouse, Warehouse:untilWarehouse

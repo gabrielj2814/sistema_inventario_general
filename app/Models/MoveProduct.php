@@ -17,8 +17,6 @@ class MoveProduct extends Model
      */
     protected $fillable = [
         'product_id',
-        'from_warehouse',
-        'until_warehouse',
         'amount',
         'user_id',
         'from_warehouse_id',
@@ -33,8 +31,6 @@ class MoveProduct extends Model
     protected $casts = [
         'id' => 'integer',
         'product_id' => 'integer',
-        'from_warehouse' => 'integer',
-        'until_warehouse' => 'integer',
         'user_id' => 'integer',
         'from_warehouse_id' => 'integer',
         'until_warehouse_id' => 'integer',
@@ -48,16 +44,6 @@ class MoveProduct extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
-    }
-
-    public function fromWarehouse(): BelongsTo
-    {
-        return $this->belongsTo(Warehouse::class);
-    }
-
-    public function untilWarehouse(): BelongsTo
-    {
-        return $this->belongsTo(Warehouse::class);
     }
 
     public function fromWarehouse(): BelongsTo

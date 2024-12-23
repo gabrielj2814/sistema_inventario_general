@@ -10,17 +10,17 @@ created:
     - database/factories/InventoryMovementFactory.php
     - database/factories/CustomerFactory.php
     - database/factories/MoveProductFactory.php
-    - database/migrations/2024_12_23_220925_create_categories_table.php
-    - database/migrations/2024_12_23_220926_create_products_table.php
-    - database/migrations/2024_12_23_220927_create_suppliers_table.php
-    - database/migrations/2024_12_23_220928_create_product_suppliers_table.php
-    - database/migrations/2024_12_23_220929_create_warehouses_table.php
-    - database/migrations/2024_12_23_220930_create_inventory_warehouses_table.php
-    - database/migrations/2024_12_23_220931_create_orders_table.php
-    - database/migrations/2024_12_23_220932_create_order_details_table.php
-    - database/migrations/2024_12_23_220933_create_inventory_movements_table.php
-    - database/migrations/2024_12_23_220934_create_customers_table.php
-    - database/migrations/2024_12_23_220935_create_move_products_table.php
+    - database/migrations/2024_12_23_222121_create_categories_table.php
+    - database/migrations/2024_12_23_222122_create_products_table.php
+    - database/migrations/2024_12_23_222123_create_suppliers_table.php
+    - database/migrations/2024_12_23_222124_create_product_suppliers_table.php
+    - database/migrations/2024_12_23_222125_create_warehouses_table.php
+    - database/migrations/2024_12_23_222126_create_inventory_warehouses_table.php
+    - database/migrations/2024_12_23_222127_create_orders_table.php
+    - database/migrations/2024_12_23_222128_create_order_details_table.php
+    - database/migrations/2024_12_23_222129_create_inventory_movements_table.php
+    - database/migrations/2024_12_23_222130_create_customers_table.php
+    - database/migrations/2024_12_23_222131_create_move_products_table.php
     - app/Models/Category.php
     - app/Models/Product.php
     - app/Models/Supplier.php
@@ -44,4 +44,4 @@ models:
     OrderDetail: { amount: integer, price_unit: 'decimal:8,2', subTotal: integer, relationships: { belongsTo: 'Product, Order' }, softdeletes: softDeletes, timestamps: timestamps }
     InventoryMovement: { date_movement: date, type: 'enum:entrada,salida,ajuste', amount: integer, note: 'string:255', order_id: 'id foreign:Order.id nullable', product_supplier_id: 'id foreign:ProductSupplier.id nullable', relationships: { belongsTo: '\App\Models\User, ProductSupplier, Warehouse, Order, Product' }, softdeletes: softDeletes, timestamps: timestamps }
     Customer: { name: 'string:140', phone: 'string:25', email: 'string:255', adress: 'string:255', relationships: { hasMany: Order }, softdeletes: softDeletes, timestamps: timestamps }
-    MoveProduct: { product_id: 'id foreign:Product.id', from_warehouse: 'id foreign:Warehouse.id', until_warehouse: 'id foreign:Warehouse.id', amount: integer, relationships: { belongsTo: '\App\Models\User, Product, Warehouse:fromWarehouse, Warehouse:untilWarehouse' }, timestamps: timestamps }
+    MoveProduct: { product_id: 'id foreign:Product.id', amount: integer, relationships: { belongsTo: '\App\Models\User, Product, Warehouse:fromWarehouse, Warehouse:untilWarehouse' }, timestamps: timestamps }
