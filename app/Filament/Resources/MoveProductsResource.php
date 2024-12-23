@@ -2,28 +2,39 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\OrderResource\Pages;
-use App\Filament\Resources\OrderResource\RelationManagers;
-use App\Models\Order;
+use App\Filament\Resources\MoveProductsResource\Pages;
+use App\Filament\Resources\MoveProductsResource\RelationManagers;
+use App\Models\InventoryMovement;
+use App\Models\MoveProduct;
+use App\Models\MoveProducts;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class OrderResource extends Resource
+class MoveProductsResource extends Resource
 {
 
-    protected static ?string $navigationLabel = 'Order';
+    protected static ?string $navigationGroup = 'Inventory';
+    protected static ?string $navigationLabel = 'Move Product';
 
-    // protected static ?string $recordTitleAttribute = "name";
-
-    protected static ?string $model = Order::class;
+    protected static ?string $model = MoveProduct::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Move Product'; // Título personalizado
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Move Product'; // Texto en la barra de navegación
+    }
+
 
     public static function form(Form $form): Form
     {
@@ -37,11 +48,7 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make("dateOrder")->label("Date")->date("Y-m-d"),
-                TextColumn::make("customer.name")->label("Customer"),
-                TextColumn::make("user.name")->label("Employee"),
-                TextColumn::make("total")->label("Total"),
-                TextColumn::make("statu")->label("Status"),
+                //
             ])
             ->filters([
                 //
@@ -66,9 +73,9 @@ class OrderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListOrders::route('/'),
-            'create' => Pages\CreateOrder::route('/create'),
-            // 'edit' => Pages\EditOrder::route('/{record}/edit'),
+            'index' => Pages\ListMoveProducts::route('/'),
+            'create' => Pages\CreateMoveProducts::route('/create'),
+            'edit' => Pages\EditMoveProducts::route('/{record}/edit'),
         ];
     }
 }

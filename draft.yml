@@ -19,7 +19,7 @@ models:
     unit_of_measurement: enum:mg,g,kg,t,ml,l,cm3,m3,mm,cm,m,km,ud,dz,pkg,box
     relationships:
       belongsTo: Category
-      hasMany: ProductSupplier, OrderDetail, InventoryWarehouse, InventoryMovement
+      hasMany: ProductSupplier, OrderDetail, InventoryWarehouse, InventoryMovement, MoveProduct
     softDeletes
     timestamps
 
@@ -94,6 +94,15 @@ models:
     relationships:
       hasMany: Order
     softDeletes
+    timestamps
+
+  MoveProduct:
+    product_id: id foreign:Product.id
+    from_warehouse: id foreign:Warehouse.id
+    until_warehouse: id foreign:Warehouse.id
+    amount: integer
+    relationships:
+      belongsTo: \App\Models\User, Product, Warehouse:fromWarehouse, Warehouse:untilWarehouse
     timestamps
 
 

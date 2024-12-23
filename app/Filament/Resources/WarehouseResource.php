@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class WarehouseResource extends Resource
 {
 
+    protected static ?string $navigationGroup = 'Inventory';
     protected static ?string $navigationLabel="Warehouse";
 
     protected static ?string $recordTitleAttribute = "name";

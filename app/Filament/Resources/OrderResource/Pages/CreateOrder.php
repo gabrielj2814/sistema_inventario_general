@@ -86,10 +86,10 @@ class CreateOrder extends CreateRecord
                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 6,"xl" => 6,"xl2" => 6]),
                 Select::make("warehouse")->label("Warehouse")->required()->searchable()->options(Warehouse::all()->pluck("name","id"))
                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 3,"xl" => 3,"xl2" => 3]),
-                TextInput::make("product_amount")->label("amount")->numeric()
-                ->columnSpan(["sm" => 12,"md" => 12,"lg" => 1,"xl" => 1,"xl2" => 1]),
-                TextInput::make("product_price")->label("Price")->readOnly()
+                TextInput::make("product_price")->label("Price")->readOnly()->hidden(fn (Get $get) => $get("product_id")=="" )
                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 2,"xl" => 2,"xl2" => 2]),
+                TextInput::make("product_amount")->label("amount")->numeric()->hidden(fn (Get $get) => ($get("warehouse")!="" && $get("product_id")!="")?false:true)
+                ->columnSpan(["sm" => 12,"md" => 12,"lg" => 1,"xl" => 1,"xl2" => 1]),
                 TextInput::make("product_name")->hidden()->disabled(),
             ])->itemLabel(fn (array $state): ?string => $state['product_name'] ?? null)
             ->live()
@@ -194,7 +194,7 @@ class CreateOrder extends CreateRecord
         $today=new DateTime("now");
         $data["dateOrder"]=$today->format("Y-m-d");
         $data["total"]=$data["total_order"];
-        $data["statu"]="pendiente";
+        $data["statu"]="completado";
         $data["user_id"]=$user->id;
         $this->validateStockProductAtWarehouse($data["products"]);
         $this->dataForm=$data;
@@ -249,7 +249,7 @@ class CreateOrder extends CreateRecord
             $outInventoryMovement->order_id=$order->id;
             $outInventoryMovement->warehouse_id=$copieProducts[$index]["warehouse"];
             $outInventoryMovement->user_id=$data["user_id"];
-            $outInventoryMovement->product_id=$data["product_id"];
+            $outInventoryMovement->product_id=$copieProducts[$index]["product_id"];
             $outInventoryMovement->save();
             $updateInventoryWarehouse=InventoryWarehouse::where("warehouse_id","=",$copieProducts[$index]["warehouse"])
             ->where("product_id","=",$copieProducts[$index]["product_id"])

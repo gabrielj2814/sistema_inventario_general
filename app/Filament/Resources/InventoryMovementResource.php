@@ -7,6 +7,8 @@ use App\Filament\Resources\InventoryMovementResource\RelationManagers;
 use App\Models\InventoryMovement;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Navigation\NavigationGroup;
+use Filament\Panel;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -16,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class InventoryMovementResource extends Resource
 {
-
+    protected static ?string $navigationGroup = 'Inventory';
     protected static ?string $navigationLabel = 'Inventory';
 
     protected static ?string $recordTitleAttribute = "name";
@@ -76,4 +78,11 @@ class InventoryMovementResource extends Resource
             // 'edit' => Pages\EditInventoryMovement::route('/{record}/edit'),
         ];
     }
+
+    // public function panel(Panel $panel){
+    //     return $panel->navigationGroups([
+    //         NavigationGroup::make()->label("Inventory")->icon("heroicon-o-rectangle-stack"),
+    //         NavigationGroup::make()->label("Move Product")->icon("heroicon-o-rectangle-stack")->collapsed(),
+    //     ]);
+    // }
 }

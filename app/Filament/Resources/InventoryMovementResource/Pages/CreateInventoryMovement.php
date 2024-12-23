@@ -62,7 +62,7 @@ class CreateInventoryMovement extends CreateRecord
         // $data["type"]="estrada";
         $data["date_movement"]=$today->format("Y-m-d");
         $data["user_id"]=$user->id;
-        $data["product_id"]=$data["product_id"];
+        $data["product_id"]=$data["product"];
 
         $this->dataForm=$data;
         return $data;

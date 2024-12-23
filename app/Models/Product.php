@@ -62,4 +62,9 @@ class Product extends Model
     {
         return $this->hasMany(InventoryMovement::class);
     }
+
+    public function moveProducts(): HasMany
+    {
+        return $this->hasMany(MoveProduct::class);
+    }
 }
