@@ -11,6 +11,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -49,12 +50,17 @@ class MoveProductsResource extends Resource
         return $table
             ->columns([
                 //
+                TextColumn::make("product.name")->label("Product"),
+                TextColumn::make("fromWarehouse.name")->label("Form Warehouse"),
+                TextColumn::make("untilWarehouse.name")->label("Until Warehouse"),
+                TextColumn::make("amount")->label("Amount"),
+                TextColumn::make("user.name")->label("User"),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -75,7 +81,7 @@ class MoveProductsResource extends Resource
         return [
             'index' => Pages\ListMoveProducts::route('/'),
             'create' => Pages\CreateMoveProducts::route('/create'),
-            'edit' => Pages\EditMoveProducts::route('/{record}/edit'),
+            // 'edit' => Pages\EditMoveProducts::route('/{record}/edit'),
         ];
     }
 }
