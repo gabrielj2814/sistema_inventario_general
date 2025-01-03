@@ -48,13 +48,36 @@ class ProductResource extends Resource
             ])
             ->filters([
                 //
+                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\SelectFilter::make('name')
+                ->options(self::getModel()::all()->pluck('name', 'name'))
+                ->searchable()
+                ->preload(),
+                Tables\Filters\SelectFilter::make('unit_of_measurement')
+                ->options([
+                    "mg" => "mg",
+                    "g" => "g",
+                    "kg" => "kg",
+                    "t" => "t",
+                    "mm" => "mm",
+                    "cm" => "cm",
+                    "m" => "m",
+                    "km" => "km",
+                    "ud" => "ud",
+                    "dz" => "dz",
+                    "pkg" => "pkg",
+                    "box" => "box",
+                ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }

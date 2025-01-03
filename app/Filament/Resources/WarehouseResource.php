@@ -43,13 +43,21 @@ class WarehouseResource extends Resource
             ])
             ->filters([
                 //
+                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\SelectFilter::make('name')
+                ->options(self::getModel()::all()->pluck('name', 'name'))
+                ->searchable()
+                ->preload(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }
