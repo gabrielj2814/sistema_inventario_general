@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\WarehouseResource\Pages;
 use App\Filament\Resources\WarehouseResource\RelationManagers;
+use App\Filament\Resources\WarehouseResource\RelationManagers\InventoryWarehousesRelationManager;
 use App\Models\Warehouse;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -66,6 +67,7 @@ class WarehouseResource extends Resource
     {
         return [
             //
+            InventoryWarehousesRelationManager::class,
         ];
     }
 
