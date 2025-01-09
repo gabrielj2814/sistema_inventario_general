@@ -5,13 +5,19 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\InventoryMovementResource\Pages;
 use App\Filament\Resources\InventoryMovementResource\RelationManagers;
 use App\Models\InventoryMovement;
+use App\Models\Product;
+use App\Models\Supplier;
+use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -52,6 +58,52 @@ class InventoryMovementResource extends Resource
             ])
             ->filters([
                 //
+                Filter::make("relationships")->form([
+                    Select::make('Product')
+                    ->options(Product::all()->pluck('name', 'id'))
+                    ->searchable()
+                    ->preload(),
+                    Select::make('Supplier')
+                    ->options(Supplier::all()->pluck('name', 'id'))
+                    ->searchable()
+                    ->preload(),
+                    Select::make('Employee')
+                    ->options(User::all()->pluck('name', 'id'))
+                    ->searchable()
+                    ->preload(),
+                ])
+                ->query( function(Builder $query, array $data): Builder{
+                    if (isset($data['Product'])) {
+                        $query->whereHas('productSupplier', function (Builder $query) use ($data) {
+                            $query->where('product_id', $data['Product']);
+                        });
+                    }
+                    if (isset($data['Supplier'])) {
+                        $query->whereHas('productSupplier', function (Builder $query) use ($data) {
+                            $query->where('supplier_id', $data['Supplier']);
+                        });
+                    }
+                    if (isset($data['Employee'])) {
+                        $query->whereHas('user', function (Builder $query) use ($data) {
+                            $query->where('user_id', $data['Employee']);
+                        });
+                    }
+                    return $query;
+                }),
+
+                Tables\Filters\SelectFilter::make('Type')
+                ->options([
+                    "entrada" => "Entrada",
+                    "salida" => "Salida",
+                    "ajuste" => "Ajuste",
+                ]),
+                Filter::make("Date")->form([
+                    DatePicker::make('from')->default(now()),
+                    DatePicker::make('until')->default(now()),
+                ])
+                ->query(function (Builder $query, array $data):Builder {
+                    return $query->whereBetween('date_movement', [$data['from'], $data['until']]);
+                }),
             ])
             ->actions([
                 // Tables\Actions\EditAction::make(),
