@@ -55,6 +55,7 @@ class InventoryMovementResource extends Resource
                 TextColumn::make("amount"),
                 TextColumn::make("user.name")->label("User"),
                 TextColumn::make("note"),
+
             ])
             ->filters([
                 //
