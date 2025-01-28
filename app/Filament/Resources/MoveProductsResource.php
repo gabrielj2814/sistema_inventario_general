@@ -7,11 +7,17 @@ use App\Filament\Resources\MoveProductsResource\RelationManagers;
 use App\Models\InventoryMovement;
 use App\Models\MoveProduct;
 use App\Models\MoveProducts;
+use App\Models\Product;
+use App\Models\User;
+use App\Models\Warehouse;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -50,6 +56,7 @@ class MoveProductsResource extends Resource
         return $table
             ->columns([
                 //
+                TextColumn::make("created_at")->label("Date")->date('d/m/Y H:i:s'),
                 TextColumn::make("product.name")->label("Product"),
                 TextColumn::make("fromWarehouse.name")->label("Form Warehouse"),
                 TextColumn::make("untilWarehouse.name")->label("Until Warehouse"),
@@ -58,14 +65,38 @@ class MoveProductsResource extends Resource
             ])
             ->filters([
                 //
+                Filter::make("Date")->form([
+                    DatePicker::make('from')->default(now()),
+                    DatePicker::make('until')->default(now()),
+                ])
+                ->query(function (Builder $query, array $data):Builder {
+                    return $query->whereBetween('created_at', [$data['from'], $data['until']]);
+                }),
+                SelectFilter::make('user_id')->label('Employee')
+                ->options(User::all()->pluck('name', 'id'))
+                ->searchable()
+                ->preload(),
+                SelectFilter::make('product_id')->label('Product')
+                ->options(Product::all()->pluck('name', 'id'))
+                ->searchable()
+                ->preload(),
+                SelectFilter::make('from_warehouse_id')->label('From Warehouse')
+                ->options(Warehouse::all()->pluck('name', 'id'))
+                ->searchable()
+                ->preload(),
+                SelectFilter::make('until_warehouse_id')->label('Until Warehouse')
+                ->options(Warehouse::all()->pluck('name', 'id'))
+                ->searchable()
+                ->preload(),
             ])
             ->actions([
                 // Tables\Actions\EditAction::make(),
+
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 
