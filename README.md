@@ -1,16 +1,53 @@
 # Requerimientos para poder instalar el sistema
-- Docker
+- Docker XD
 
 ## Instalación
 
+recomiendo que creen el archivo .env si no esta creado, pueden usar de ejemplo el archivo .example.env y los sigueintes datos son solo de ejemplo que puedes usar, recomiendo solo cambiar lo que tena el texto "cambiar" del resto puede dejar lo demas como esta.
+``` env
+DB_PASSWORD_CUSTOM="cambiar"
+DB_CONNECTION=mysql
+DB_HOST=db-mysql
+DB_PORT=3306
+DB_DATABASE=inventario_db
+DB_USERNAME=root
+DB_PASSWORD="${DB_PASSWORD_CUSTOM}"
+DOCKER_CACHE_PORT="6003:6379"
+L5_SWAGGER_GENERATE_ALWAYS="true"
+DEBUG_PASSWORD_ADMIN=cambiar
+DOCKER_PHP_PORT="9202:9000"
+JWT_KEY="cambiar"
+```
 Para poder levantar el sistema con docker se requiuere del siguiente comando.
 ```shell
 docker compose -f docker-compose-dev.yml up -d
 ```
-Ya teniendo los contenedores corriendo entraremos al contenedo de php para poder instalar las dependencias de proyecto laravel.
+Recomiendo que en este punto crees la base de datos usando el mismo nombre que configuraste en .env, puedes usar PhpMyAdmin para poder crear la base de datos o cualquier herramienta que te permita conectarte al servicio de MySQL. 
+
+Y ya aviendo creado la base de datos entraremos al contenedor de php para poder instalar las dependencias de proyecto laravel.
 ```shell
 composer install
 ```
+Ahora precederemos a generar el key del proyecto laravel y lo haremos con el siguiente comando.
+```shell
+php artisan key:generate
+```
+
+Ahora que ya instalamos las dependecias de laravel daremos de daja los servicios para luego, volverlos a levantar otra vez, esto con el objetivo que el contendor de la api se levante correctamente,
+ya que cuando levantamos los servicios por primera vez el contenedor de la api, no tenia las dependecias de laravel instaladas motivo por el cual, el servicio no se levanto correctamente.
+```shell
+docker compose -f docker-compose-dev.yml down
+docker compose -f docker-compose-dev.yml up -d
+```
+Con esto procederemos a crear el usuario Root con el que podras entrar al sistema esto lo haremos desde el contenedor de php y la clave del usuario sera la que esta en la variable de entorno DEBUG_PASSWORD_ADMIN.
+```shell
+php artisan app:root-default
+```
+
+
+
+
+
 
 
 
