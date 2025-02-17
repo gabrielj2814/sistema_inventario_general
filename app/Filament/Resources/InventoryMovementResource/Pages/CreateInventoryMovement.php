@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\InventoryMovementResource\Pages;
 
 use App\Filament\Resources\InventoryMovementResource;
-use App\Forms\Components\MensajeField;
 use App\Models\InventoryMovement;
 use App\Models\InventoryWarehouse;
 use App\Models\Product;
@@ -16,7 +15,6 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Components\Text;
-use Filament\Forms\Components\ViewField;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Collection;
@@ -46,11 +44,9 @@ class CreateInventoryMovement extends CreateRecord
                 Select::make("type")->required()->label("Type")->options([
                     "entrada"=>"Entrada",
                     "ajuste" => "Ajuste",
-                ])
+                ])->live()
                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
-                // ViewField::make("mensaje1")->view('filament.forms.components.mensaje-field'),
                 TextInput::make("amount")->required()->autocomplete(false)->numeric()->default(0)
-
                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
                 MensajeField::make("hola"),
                 Textarea::make("note")->required()->autocomplete(false)->columnSpan(["sm" => 12,"md" => 12,"lg" => 12,"xl" => 12,"xl2" => 12]),
@@ -58,6 +54,39 @@ class CreateInventoryMovement extends CreateRecord
         ]);
     }
 
+    // function form(Form $form): Form {
+    //     return $form->schema([
+    //         Section::make("Created")->columns([
+    //             "sm" => 12,
+    //             "md" => 12,
+    //             "lg" => 12,
+    //             "xl" => 12,
+    //             "xl2" => 12,
+    //         ])->schema([
+    //             Select::make("product")->required()->searchable()->options(Product::all()->pluck("name","id"))->live()
+    //                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
+    //             Select::make("product_supplier_id")->label("Supplier")->required()->searchable()->options(fn ($get): Collection => ProductSupplier::query()->with("supplier")->where("product_id","=",$get("product"))->get()->pluck("supplier.name","id"))
+    //                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
+    //             Select::make("warehouse_id")->required()->label("Warehouse")->searchable()->options(Warehouse::all()->pluck("name","id"))
+    //                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
+    //             Select::make("type")->required()->label("Type")->options([
+    //                 "entrada" => "Entrada",
+    //                 "ajuste" => "Ajuste",
+    //             ])->live()
+    //                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
+    //             TextInput::make("amount")->required()->autocomplete(false)->numeric()->default(0)
+    //                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
+    //             Textarea::make("note")->required()->autocomplete(false)->columnSpan(["sm" => 12,"md" => 12,"lg" => 12,"xl" => 12,"xl2" => 12]),
+
+    //             // Texto dinámico basado en la selección del tipo
+    //             TextEntry::make('info_text')
+    //                 ->label('Información')
+    //                 ->visible(fn ($get) => $get('type') === 'entrada' || $get('type') === 'ajuste')
+    //                 ->default(fn ($get) => $get('type') === 'entrada' ? 'Este es un movimiento de entrada.' : 'Este es un ajuste de inventario.')
+    //                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 12,"xl" => 12,"xl2" => 12]),
+    //         ])
+    //     ]);
+    // }
 
 
     protected function mutateFormDataBeforeCreate(array $data): array
