@@ -3,18 +3,20 @@
 namespace App\Filament\Resources\InventoryMovementResource\Pages;
 
 use App\Filament\Resources\InventoryMovementResource;
+use App\Forms\Components\MensajeField;
 use App\Models\InventoryMovement;
 use App\Models\InventoryWarehouse;
 use App\Models\Product;
 use App\Models\ProductSupplier;
 use App\Models\Warehouse;
 use DateTime;
-use Filament\Actions;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Components\Text;
+use Filament\Forms\Components\ViewField;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Collection;
@@ -46,8 +48,11 @@ class CreateInventoryMovement extends CreateRecord
                     "ajuste" => "Ajuste",
                 ])
                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
+                // ViewField::make("mensaje1")->view('filament.forms.components.mensaje-field'),
                 TextInput::make("amount")->required()->autocomplete(false)->numeric()->default(0)
+
                 ->columnSpan(["sm" => 12,"md" => 12,"lg" => 4,"xl" => 4,"xl2" => 4]),
+                MensajeField::make("hola"),
                 Textarea::make("note")->required()->autocomplete(false)->columnSpan(["sm" => 12,"md" => 12,"lg" => 12,"xl" => 12,"xl2" => 12]),
             ])
         ]);

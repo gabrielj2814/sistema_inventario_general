@@ -50,7 +50,7 @@ class InventoryMovementResource extends Resource
 
                 TextColumn::make("date_movement")->date("Y-m-d"),
                 TextColumn::make("type"),
-                TextColumn::make("productSupplier.product.name")->label("Porduct"),
+                TextColumn::make("product.name")->label("Porduct"),
                 TextColumn::make("productSupplier.supplier.name")->label("Supplier"),
                 TextColumn::make("amount"),
                 TextColumn::make("user.name")->label("User"),
@@ -75,7 +75,7 @@ class InventoryMovementResource extends Resource
                 ])
                 ->query( function(Builder $query, array $data): Builder{
                     if (isset($data['Product'])) {
-                        $query->whereHas('productSupplier', function (Builder $query) use ($data) {
+                        $query->whereHas('product', function (Builder $query) use ($data) {
                             $query->where('product_id', $data['Product']);
                         });
                     }
